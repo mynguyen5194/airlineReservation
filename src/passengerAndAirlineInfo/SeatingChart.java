@@ -65,7 +65,8 @@ public class SeatingChart {
 		
 		for(int r = 0; r < 10; r++) {
 			for(int c = 0; c < 4; c++) {
-				if(passenger[r][c] != null && passenger[r][c].getPassengerFirstName() == firstName
+				if(passenger[r][c] != null
+						&& passenger[r][c].getPassengerFirstName() == firstName
 						&& passenger[r][c].getPassengerLastName() == lastName) {
 					coordinate[0] = r;
 					coordinate[1] = c;
