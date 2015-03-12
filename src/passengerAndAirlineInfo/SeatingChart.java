@@ -5,13 +5,13 @@ import java.util.*;
 public class SeatingChart {
 	private int rowNumber;
 	private int columnNumber;
-	Passenger [][] passenger = new Passenger [10][4];	// 10 Rows, 4 Columns
+	Passenger [][] seatingChart = new Passenger [10][4];	// 10 Rows, 4 Columns
 	
 	public SeatingChart() {}
 	public SeatingChart(int rowNum, int columnNum, Passenger [][] Passenger) {
 		rowNumber = rowNum;
 		columnNumber = columnNum;
-		passenger = Passenger;
+		seatingChart = Passenger;
 	}
 	
 	public int getRowNumber() {
@@ -26,20 +26,32 @@ public class SeatingChart {
 	public void setColumnNumber(int columnNumber) {
 		this.columnNumber = columnNumber;
 	}
-	public Passenger[][] getPassenger() {
-		return passenger;
+	public Passenger[][] getSeatingChart() {
+		return seatingChart;
 	}
-	public void setPassenger(Passenger[][] passenger) {
-		this.passenger = passenger;
+	public void setSeatingChart(Passenger[][] SeatingChart) {
+		this.seatingChart = SeatingChart;
 	}
 	
 	public boolean checkEmptySeat(int rowNum, int columnNum) {
 		boolean empty = true;
 		
-		if(passenger[rowNum][columnNum] != null) {	// If the seat is occupied
+		if(seatingChart[rowNum][columnNum] != null) {	// If the seat is occupied
 			empty = false;						// then it's not empty
 		}
 		
+		return empty;
+	}
+	
+	public boolean isEmptySeatingChart() {
+		boolean empty = false;
+		for(int r = 0; r < 10; r++) {
+			for(int c = 0; c < 4; c ++) {
+				if(seatingChart[r][c] == null) {
+					empty = true;
+				}
+			}
+		}
 		return empty;
 	}
 	
@@ -65,9 +77,9 @@ public class SeatingChart {
 		
 		for(int r = 0; r < 10; r++) {
 			for(int c = 0; c < 4; c++) {
-				if(passenger[r][c] != null
-						&& passenger[r][c].getPassengerFirstName().equals(firstName)
-						&& passenger[r][c].getPassengerLastName().equals(lastName)) {
+				if(seatingChart[r][c] != null
+						&& seatingChart[r][c].getPassengerFirstName().equals(firstName)
+						&& seatingChart[r][c].getPassengerLastName().equals(lastName)) {
 					coordinate[0] = r;
 					coordinate[1] = c;
 					found = true;
@@ -83,7 +95,7 @@ public class SeatingChart {
 	
 	// Remove passenger from the seating chart
 	public void cancleFlight(int row, int column) {
-		passenger[row][column] = null;
+		seatingChart[row][column] = null;
 			
 	}
 	
@@ -91,22 +103,21 @@ public class SeatingChart {
 		Passenger newPassenger = new Passenger(firstName, lastName);
 		
 		if(this.checkEmptySeat(row, column) != false) {		// empty
-			passenger[row][column] = newPassenger;
+			seatingChart[row][column] = newPassenger;
 		}
 	}
 	
 	public Passenger getPassengerInfo(int row, int column) {
 		Passenger newPassenger = new Passenger();
 		
-		newPassenger.setPassengerFirstName(passenger[row][column].getPassengerFirstName());
-		newPassenger.setPassengerLastName(passenger[row][column].getPassengerLastName());
+		newPassenger.setPassengerFirstName(seatingChart[row][column].getPassengerFirstName());
+		newPassenger.setPassengerLastName(seatingChart[row][column].getPassengerLastName());
 		
 		return newPassenger;
 	}
 	
-	public void updateAvailableSeat() {
+	public void updateAvailableSeat(Passenger newPassenger, int [] seatLocation) {
 		WaitingList waitingList = new WaitingList();
-		Passenger newPassenger = new Passenger();
 		
 		if(waitingList.isEmptyWaitingList() == false) {
 			newPassenger = waitingList.removePassengerFromWL();	// remove the first passenger in the waiting list

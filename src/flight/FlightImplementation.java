@@ -46,8 +46,15 @@ public abstract class FlightImplementation implements Flight {
 	
 	
 	
-	public boolean addPassenger(Passenger newPassenger, SeatingChart seatingChart) {
+	public boolean addPassenger() {
 		boolean success = false;
+		
+		Passenger newPassenger = this.getPassengerInfo();
+		int [] seatLocation = this.getSeatLocation();
+		
+		// Now have to check if the seatingChart is full
+		
+		
 		
 		
 		
@@ -69,7 +76,7 @@ public abstract class FlightImplementation implements Flight {
 			}
 			else {
 				Scanner stringScanner = new Scanner(System.in);
-				System.out.printf("This seat is currently empty\n"
+				System.out.printf("This seat is currently empty.\n"
 						+ "Do you want to check in this seat? ");
 				String answer = stringScanner.nextLine();
 				
