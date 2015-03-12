@@ -60,16 +60,21 @@ public class SeatingChart {
 	}
 	
 	public int [] searchPassenger(String firstName, String lastName) {
-		
+		boolean found = false;
 		int [] coordinate = new int [2];
 		
 		for(int r = 0; r < 10; r++) {
 			for(int c = 0; c < 4; c++) {
 				if(passenger[r][c] != null
-						&& passenger[r][c].getPassengerFirstName() == firstName
-						&& passenger[r][c].getPassengerLastName() == lastName) {
+						&& passenger[r][c].getPassengerFirstName().equals(firstName)
+						&& passenger[r][c].getPassengerLastName().equals(lastName)) {
 					coordinate[0] = r;
 					coordinate[1] = c;
+					found = true;
+				}
+				else if (found == false) {
+					coordinate[0] = -1;
+					coordinate[1] = -1;
 				}
 			}
 		}
@@ -99,55 +104,14 @@ public class SeatingChart {
 		return newPassenger;
 	}
 	
-	public void getSeatChoiceFromUser() { 
-		int row, column;
-		Scanner scanner = new Scanner(System.in);
-		
-		System.out.printf("Please enter the row following by the column of the seat you want: ");
-		row = scanner.nextInt();
-		column = scanner.nextInt();
-		
-		if(row < 10 || column < 4) {
-			if(this.checkEmptySeat(row, column) != true) {
-				System.out.printf("Not Empty");
-			}
-			else {
-				Scanner stringScanner = new Scanner(System.in);
-				System.out.printf("This seat is currently empty\n"
-						+ "Do you want to check in this seat? ");
-				String answer = stringScanner.nextLine();
-				
-				if(answer == "Yes" || answer == "YES" || answer == "Y" || answer == "yes" || answer == "y") {
-					System.out.printf("\nPlease enter your first name: ");
-					String firstName = scanner.nextLine();
-					
-					System.out.printf("\nPlease enter your last name: ");
-					String lastName = scanner.nextLine();
-					
-					this.setPassengerInfo(row, column, firstName, lastName);
-				}
-				else {
-					System.out.printf("Thank you!\n");
-				}
-				stringScanner.close();
-			}
-		}
-		else {
-			System.out.printf("Error!\n");
-		}
-		
-		
-		scanner.close();
-	}
-	
 	public void updateAvailableSeat() {
 		WaitingList waitingList = new WaitingList();
-		Passenger passenger = new Passenger();
+		Passenger newPassenger = new Passenger();
 		
 		if(waitingList.isEmptyWaitingList() == false) {
-			passenger = waitingList.removePassengerFromWL();
+			newPassenger = waitingList.removePassengerFromWL();	// remove the first passenger in the waiting list
 			
-			
+			// NEED TO GET EMPTY Row and Column
 		}
 	}
 	

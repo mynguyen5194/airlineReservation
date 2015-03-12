@@ -13,10 +13,10 @@ public class Driver {
 		chart.displaySeatingChart();
 //		chart.getSeatChoiceFromUser();
 		
-		int coor[] = new int [2];
-		coor = chart.searchPassenger("Viet", "Nguyen");
-		
-		System.out.printf("row = " + coor[0] + " column = " + coor[1]);
+//		int coor[] = new int [2];
+//		coor = chart.searchPassenger("Yumm", "my");
+//		
+//		System.out.printf("row = " + coor[0] + " column = " + coor[1]);
 
 
 	}
