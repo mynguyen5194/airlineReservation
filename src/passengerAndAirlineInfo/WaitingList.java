@@ -40,7 +40,7 @@ public class WaitingList {
 	public int searchWaitingPassenger(Passenger waitingPassenger) {
 		int location = -1;
 		
-		for(int i = 0; i < waitingList.size(); i++) {
+		for(int i = 1; i <= waitingList.size(); i++) {
 			if((waitingList.get(i).getPassengerFirstName().equals(waitingPassenger.getPassengerFirstName())
 					&& (waitingList.get(i).getPassengerLastName().equals(waitingPassenger.getPassengerLastName())))) {
 				location = i;

@@ -105,9 +105,7 @@ public class SeatingChart {
 	
 	// Remove passenger from the seating chart
 	public int [] removePassenger(Passenger removedPassenger, WaitingList waitingList) {
-		int [] location = new int [2];
-		
-		location = this.searchPassenger(removedPassenger);
+		int [] location = this.searchPassenger(removedPassenger);
 		
 		if(location[0] != -1 && location [1] != -1) {
 			seatingChart[location[0]] [location[1]] = null;

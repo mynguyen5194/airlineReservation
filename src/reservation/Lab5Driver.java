@@ -1,15 +1,16 @@
 package reservation;
 import java.util.*;
+import flight.*;
 
-public class Lab5Driver {
+public class Lab5Driver extends Reservation implements Flight{
 	public static void main (String [] args) {
-		Reservation reservation = new Reservation();
+		Lab5Driver driver = new Lab5Driver();
+		
 		Scanner scanner = new Scanner(System.in);
 
-		reservation.addNewPassenger(reservation, scanner);
-		reservation.displaySeatingChart();
-		
-//		reservation.drivenMenu(reservation, scanner);
+//		driver.addPassenger(scanner);
+//		driver.displaySeatingChart();
+		driver.drivenMenu(scanner);
 		
 		scanner.close();
 	}

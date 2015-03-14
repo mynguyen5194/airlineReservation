@@ -2,8 +2,6 @@ package passengerAndAirlineInfo;
 
 import java.io.Serializable;
 
-
-
 public class Passenger implements Serializable {
 	private String passengerFirstName;
 	private String passengerLastName;
@@ -37,7 +35,7 @@ public class Passenger implements Serializable {
 	}
 	
 	public void displayName() {
-		StringBuffer str = new StringBuffer(" ");
+		StringBuffer str = new StringBuffer("");
 		
 		str.append(this.getPassengerFirstName() + " ");
 		str.append(this.getPassengerLastName());
