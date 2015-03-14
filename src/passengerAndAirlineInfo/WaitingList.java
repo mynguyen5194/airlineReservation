@@ -23,6 +23,8 @@ public class WaitingList {
 	
 	public void addPassengerToWaitingList(Passenger newWaitingPassenger) {
 		waitingList.addLast(newWaitingPassenger);
+		
+//		waitingList.lastIndexOf(newWaitingPassenger);
 	}
 	
 	public Passenger moveUpTheWaitingList() {

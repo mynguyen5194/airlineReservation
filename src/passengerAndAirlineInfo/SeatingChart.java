@@ -102,10 +102,9 @@ public class SeatingChart {
 	}
 	
 	// Remove passenger from the seating chart
-	public boolean removePassenger(Passenger passenger, WaitingList waitingList) {
+	public int [] removePassenger(Passenger passenger, WaitingList waitingList) {
 		int [] location = new int [2];
 		Passenger removedPassenger = new Passenger();
-		boolean removed = false;
 		
 		location = this.searchPassenger(passenger);
 		
@@ -114,25 +113,26 @@ public class SeatingChart {
 			seatingChart[location[0]] [location[1]] = null;
 			System.out.printf("Passenger " + removedPassenger.getPassengerFirstName() + " "
 					+ removedPassenger.getPassengerLastName() + " was removed from the seating chart.\n");
-			removed = true;
 		}
 		else {
 			int index = waitingList.searchWaitingPassenger(passenger);
 			
 			if(index != -1) {
 				removedPassenger = waitingList.removeSpecificPassenger(index);
+				location[0] = -1;
+				location[1] = -1;
 				System.out.printf("Passenger " + removedPassenger.getPassengerFirstName() + " "
 						+ removedPassenger.getPassengerLastName() + " was removed from the waiting list.\n");
-				removed = true;
 			}
 			else {
+				location[0] = -1;
+				location[1] = -1;
 				System.out.printf("Passenger " + removedPassenger.getPassengerFirstName() + " "
 						+ removedPassenger.getPassengerLastName() + " cannot be found.\n");
-				removed = false;
 			}
 		}	
 		
-		return removed;
+		return location;
 	}
 	
 	public boolean setPassengerInfo(Passenger newPassenger, int [] location) {
