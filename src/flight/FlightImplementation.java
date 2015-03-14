@@ -1,6 +1,7 @@
 package flight;
 
-import java.util.Scanner;
+//import java.io.*;
+import java.util.*;
 
 import passengerAndAirlineInfo.*;
 import reservation.Reservation;
@@ -8,7 +9,7 @@ import reservation.Reservation;
 
 public abstract class FlightImplementation implements Flight {
 	WaitingList waitingList = new WaitingList();
-	SeatingChart seatingChart = new SeatingChart(2, 2);
+	SeatingChart seatingChart = new SeatingChart(1, 2);
 	
 	public String getUserInput(Scanner scanner) {
 		String input = scanner.next();
@@ -24,7 +25,7 @@ public abstract class FlightImplementation implements Flight {
 		System.out.printf("Passenger first name: ");
 		firstName = scanner.next();
 			
-		System.out.printf("\nPassenger last name: ");
+		System.out.printf("Passenger last name: ");
 		lastName = scanner.next();
 				
 		newPassenger.setPassengerFirstName(firstName);
@@ -40,9 +41,9 @@ public abstract class FlightImplementation implements Flight {
 		
 		int [] coordinate = new int [2];
 		
-		System.out.printf("\nRow number: ");
+		System.out.printf("Row number: ");
 		int row = scanner.nextInt();
-		System.out.printf("\nColumn number: ");
+		System.out.printf("Column number: ");
 		int column = scanner.nextInt();
 		
 		coordinate[0] = row;
@@ -53,25 +54,26 @@ public abstract class FlightImplementation implements Flight {
 	
 	public boolean addPassenger(Passenger newPassenger, int [] seatLocation) {
 		boolean isEmpty = false;
-		
-		isEmpty = seatingChart.isEmptySeat(seatLocation[0], seatLocation[1]);
-		
-		// If the wanted seat is empty, then set the passenger to the location
-		if(isEmpty == true) {
-			seatingChart.setPassengerInfo(newPassenger, seatLocation);
-			System.out.printf("Success\n");
-		}
-		
-		// If the wanted seat is not empty and the seatingChart is not full
-		else if (isEmpty == false && seatingChart.isEmptySeatingChart() == true) {
-			System.out.printf("This seat has been reserved\n");
-		}
-		// In case the seatingChart is full, place newPassenger in the waiting list
-		else if(seatingChart.isEmptySeatingChart() == false){
-			waitingList.addPassengerToWaitingList(newPassenger);
-			System.out.printf("\nWe appologize! All seats have been reserved\n"
-					+ "You are now on the waiting list\n");		// SHOULD RETURN THE INDEX IN THE WAITING LIST
-		}
+			isEmpty = seatingChart.isEmptySeat(seatLocation[0], seatLocation[1]);
+			
+			// If the wanted seat is empty, then set the passenger to the location
+			if(isEmpty == true) {
+				seatingChart.setPassengerInfo(newPassenger, seatLocation);
+				System.out.printf("Passenger ");
+				newPassenger.displayName();
+				System.out.printf(" has been added to the seating chart\n");
+			}
+			
+			// If the wanted seat is not empty and the seatingChart is not full
+			else if (isEmpty == false && seatingChart.isEmptySeatingChart() == true) {
+				System.out.printf("This seat has been reserved\n");
+			}
+			// In case the seatingChart is full, place newPassenger in the waiting list
+			else if(seatingChart.isEmptySeatingChart() == false){
+				waitingList.addPassengerToWaitingList(newPassenger);
+				System.out.printf("\nWe appologize! All seats have been reserved\n"
+						+ "You are now on the waiting list\n");		// SHOULD RETURN THE INDEX IN THE WAITING LIST
+			}
 		
 		return isEmpty;
 	}
@@ -86,9 +88,10 @@ public abstract class FlightImplementation implements Flight {
 		removedPassenger = reservation.getPassengerInfo(scanner);
 		seatLocation = seatingChart.removePassenger(removedPassenger, waitingList);
 		
-		if(seatLocation[0] != -1 && seatLocation[1] != -1) {
+		if(seatLocation[0] != -1 && seatLocation[1] != -1 && waitingList.isEmptyWaitingList() == false) {
 			Passenger newPassenger = waitingList.moveUpTheWaitingList();
 			seatingChart.setPassengerInfo(newPassenger, seatLocation);
+			System.out.printf("The first passenger in the waiting list has been successfully moved to the seating chart\n");
 		}
 	}
 	

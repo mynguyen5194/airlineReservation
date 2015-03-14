@@ -1,6 +1,6 @@
 package passengerAndAirlineInfo;
 
-import java.io.Serializable;
+//import java.io.Serializable;
 
 public class SeatingChart {
 	private int rowNumber;
@@ -104,20 +104,18 @@ public class SeatingChart {
 	}
 	
 	// Remove passenger from the seating chart
-	public int [] removePassenger(Passenger passenger, WaitingList waitingList) {
+	public int [] removePassenger(Passenger removedPassenger, WaitingList waitingList) {
 		int [] location = new int [2];
-		Passenger removedPassenger = new Passenger();
 		
-		location = this.searchPassenger(passenger);
+		location = this.searchPassenger(removedPassenger);
 		
 		if(location[0] != -1 && location [1] != -1) {
-			removedPassenger = this.getPassengerInformation(location[0], location[1]);
 			seatingChart[location[0]] [location[1]] = null;
 			System.out.printf("Passenger " + removedPassenger.getPassengerFirstName() + " "
 					+ removedPassenger.getPassengerLastName() + " was removed from the seating chart.\n");
 		}
 		else {
-			int index = waitingList.searchWaitingPassenger(passenger);
+			int index = waitingList.searchWaitingPassenger(removedPassenger);
 			
 			if(index != -1) {
 				removedPassenger = waitingList.removeSpecificPassenger(index);

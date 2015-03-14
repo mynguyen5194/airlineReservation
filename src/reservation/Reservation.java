@@ -1,5 +1,6 @@
 package reservation;
 
+import java.io.*;
 import java.util.Scanner;
 
 import passengerAndAirlineInfo.Passenger;
@@ -17,19 +18,31 @@ public class Reservation extends FlightImplementation implements Flight {
 	}
 	
 	public void addNewPassenger(Reservation reservation, Scanner scanner) {
-		Passenger newPassenger = new Passenger();
-		int [] seatLocation = new int [2];
-		
-		System.out.printf("Enter the information of the passenger \n");
-		
-		newPassenger = reservation.getPassengerInfo(scanner);
-		seatLocation = reservation.getSeatLocation(scanner);
+		try {
+			Passenger newPassenger = new Passenger();
+			int [] seatLocation = new int [2];
 			
-		super.addPassenger(newPassenger, seatLocation);
+			System.out.printf("Enter the information of the passenger \n");
+			
+			newPassenger = reservation.getPassengerInfo(scanner);
+			seatLocation = reservation.getSeatLocation(scanner);
+				
+			super.addPassenger(newPassenger, seatLocation);
+			
+			
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("seatingChart.txt"));
+//        	out.writeObject("hello");
+        	out.writeUTF(newPassenger.getPassengerFirstName());
+        	out.close();
+		}
+		catch(Exception e) {
+	          System.out.print("Error: " + e);
+	          System.exit(1);
+		}
 	}
 	
 	public void removePassenger(Reservation reservation, Scanner scanner) {
-		this.removePassenger(reservation, scanner);
+		super.removePassenger(reservation, scanner);
 	}
 	
 	public void drivenMenu(Reservation reservation, Scanner scanner) {
@@ -72,16 +85,5 @@ public class Reservation extends FlightImplementation implements Flight {
 				break;
 			}	
 		} while (!(option.equalsIgnoreCase("QUIT")) || !(option.equalsIgnoreCase("Q")));
-	}
-	
-	public static void main (String [] args) {
-		Reservation reservation = new Reservation();
-		Scanner scanner = new Scanner(System.in);
-		
-//		reservation.displayMenu();
-//		reservation.addNewPassenger(reservation, scanner);
-		reservation.drivenMenu(reservation, scanner);
-		
-		scanner.close();
 	}
 }
