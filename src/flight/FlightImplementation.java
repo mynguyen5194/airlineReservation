@@ -5,7 +5,7 @@ import passengerAndAirlineInfo.*;
 
 public abstract class FlightImplementation implements Flight {
 	WaitingList waitingList = new WaitingList();
-	SeatingChart seatingChart = new SeatingChart();
+	SeatingChart seatingChart = new SeatingChart(1, 1);
 	
 	public Passenger getPassengerInfo(Scanner scanner) {
 		
@@ -59,7 +59,7 @@ public abstract class FlightImplementation implements Flight {
 		else if(seatingChart.isEmptySeatingChart() == false){
 			System.out.printf("\nWe appologize! All seats have been reserved\n"
 					+ "You are now on the waiting list\n");
-			waitingList.addPassengerToWL(newPassenger.getPassengerFirstName(), newPassenger.getPassengerLastName());
+			waitingList.addPassengerToWaitingList(newPassenger);
 		}
 		
 		

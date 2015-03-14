@@ -21,19 +21,12 @@ public class WaitingList {
 		return waitingList.isEmpty();
 	}
 	
-	public void addPassengerToWL(String firstName, String lastName) {
-		// Create new passenger
-		Passenger newWaitingPassenger = new Passenger(firstName, lastName);
-		
+	public void addPassengerToWaitingList(Passenger newWaitingPassenger) {
 		waitingList.addLast(newWaitingPassenger);
 	}
 	
-	public Passenger removePassengerFromWL() {
-		Passenger firstInWaitingListPassenger = new Passenger();
-		
-		firstInWaitingListPassenger = waitingList.removeFirst();
-		
-		return firstInWaitingListPassenger;
+	public Passenger removePassengerFromWaitingList() {
+		return waitingList.removeFirst();
 	}
 	
 	public void displayWaitingList() {

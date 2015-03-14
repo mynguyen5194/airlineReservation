@@ -3,7 +3,9 @@ package passengerAndAirlineInfo;
 public class Driver {
 
 	public static void main(String[] args) {
-		SeatingChart chart = new SeatingChart();
+		SeatingChart chart = new SeatingChart(10, 4);
+		
+		chart.displaySeatingChart();
 		
 		chart.setPassengerInfo(0, 0, "My", "Nguyen");
 		chart.setPassengerInfo(0, 1, "Viet", "Nguyen");

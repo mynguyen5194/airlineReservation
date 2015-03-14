@@ -3,9 +3,14 @@ package passengerAndAirlineInfo;
 public class SeatingChart {
 	private int rowNumber;
 	private int columnNumber;
-	Passenger [][] seatingChart = new Passenger [10][4];	// 10 Rows, 4 Columns
+	Passenger [][] seatingChart;
 	
 	public SeatingChart() {}
+	public SeatingChart(int rowNum, int columnNum) {
+		rowNumber = rowNum;
+		columnNumber = columnNum;
+		seatingChart = new Passenger [rowNumber][columnNumber];
+	}
 	public SeatingChart(int rowNum, int columnNum, Passenger [][] Passenger) {
 		rowNumber = rowNum;
 		columnNumber = columnNum;
@@ -32,32 +37,37 @@ public class SeatingChart {
 	}
 	
 	public boolean checkEmptySeat(int rowNum, int columnNum) {
-		boolean empty = true;
+		boolean isEmpty = true;
 		
 		if(seatingChart[rowNum][columnNum] != null) {	// If the seat is occupied
-			empty = false;						// then it's not empty
+			isEmpty = false;						// then it's not empty
 		}
 		
-		return empty;
+		return isEmpty;
 	}
 	
 	public boolean isEmptySeatingChart() {
-		boolean empty = false;
-		for(int r = 0; r < 10; r++) {
-			for(int c = 0; c < 4; c ++) {
+		boolean isEmpty = false;
+		for(int r = 0; r < rowNumber; r++) {
+			for(int c = 0; c < columnNumber; c ++) {
 				if(seatingChart[r][c] == null) {
-					empty = true;
+					isEmpty = true;
 				}
 			}
 		}
-		return empty;
+		return isEmpty;
 	}
 	
 	public void displaySeatingChart() {
-		System.out.printf("   0  1  2  3 \n");
-		for(int r = 0; r < 10; r++) {
+		System.out.printf("  ");
+		for(int i = 0; i < columnNumber; i ++) {
+			System.out.printf(" " + i + " ");
+		}
+		System.out.printf("\n");
+		
+		for(int r = 0; r < rowNumber; r++) {
 			System.out.printf( r + " ");
-			for(int c = 0; c < 4; c++) {
+			for(int c = 0; c < columnNumber; c++) {
 				if(this.checkEmptySeat(r, c) == false) {	// not empty
 					System.out.printf(" X ");
 				}
@@ -73,8 +83,8 @@ public class SeatingChart {
 		boolean found = false;
 		int [] coordinate = new int [2];
 		
-		for(int r = 0; r < 10; r++) {
-			for(int c = 0; c < 4; c++) {
+		for(int r = 0; r < rowNumber; r++) {
+			for(int c = 0; c < columnNumber; c++) {
 				if(seatingChart[r][c] != null
 						&& seatingChart[r][c].getPassengerFirstName().equals(firstName)
 						&& seatingChart[r][c].getPassengerLastName().equals(lastName)) {
@@ -118,7 +128,7 @@ public class SeatingChart {
 		WaitingList waitingList = new WaitingList();
 		
 		if(waitingList.isEmptyWaitingList() == false) {
-			newPassenger = waitingList.removePassengerFromWL();	// remove the first passenger in the waiting list
+			newPassenger = waitingList.removePassengerFromWaitingList();	// remove the first passenger in the waiting list
 			
 			// NEED TO GET EMPTY Row and Column
 		}
