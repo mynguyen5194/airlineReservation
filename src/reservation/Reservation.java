@@ -6,19 +6,19 @@ import passengerAndAirlineInfo.Passenger;
 import flight.*;
 
 public class Reservation extends FlightImplementation implements Flight {
-	private Reservation reservation;
+//	 Reservation reservation = new Reservation();
 	
-	public Reservation() {
-		reservation = new Reservation();
-	}
-
-	public Reservation getFlight() {
-		return reservation;
-	}
-
-	public void setFlight(Reservation Reservation) {
-		this.reservation = Reservation;
-	}
+//	public Reservation() {
+//		reservation = new Reservation();
+//	}
+//
+//	public Reservation getFlight() {
+//		return reservation;
+//	}
+//
+//	public void setFlight(Reservation Reservation) {
+//		this.reservation = Reservation;
+//	}
 	
 	public void menu() {
 		System.out.printf("\t\t Menu\n"
@@ -28,7 +28,7 @@ public class Reservation extends FlightImplementation implements Flight {
 				+ "Q: Quit\n");
 	}
 	
-	public void addNewPassenger() {
+	public void addNewPassenger(Reservation reservation) {
 		Scanner scanner = new Scanner(System.in);
 		Passenger newPassenger = new Passenger();
 		int [] seatLocation = new int [2];
@@ -44,4 +44,13 @@ public class Reservation extends FlightImplementation implements Flight {
 		scanner.close();
 	}
 	
+	
+	public static void main (String [] args) {
+		Reservation reservation = new Reservation();
+		
+		reservation.menu();
+		reservation.addNewPassenger(reservation);
+		
+		
+	}
 }

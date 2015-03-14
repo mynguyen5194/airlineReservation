@@ -51,11 +51,10 @@ public abstract class FlightImplementation implements Flight {
 	public boolean addPassenger(Passenger newPassenger, int [] seatLocation) {
 		boolean isEmpty = false;
 		
-		isEmpty = seatingChart.checkEmptySeat(seatLocation[0], seatLocation[1]);
+		isEmpty = seatingChart.isEmptySeat(seatLocation[0], seatLocation[1]);
 		
 		if(isEmpty == true) {
-			seatingChart.setPassengerInfo(seatLocation[0], seatLocation[1],
-					newPassenger.getPassengerFirstName(), newPassenger.getPassengerLastName());
+			seatingChart.setPassengerInfo(newPassenger, seatLocation);
 			System.out.printf("Success\n");
 		}
 		else if (isEmpty == false && seatingChart.isEmptySeatingChart() == true) {

@@ -25,8 +25,27 @@ public class WaitingList {
 		waitingList.addLast(newWaitingPassenger);
 	}
 	
-	public Passenger removePassengerFromWaitingList() {
+	public Passenger moveUpTheWaitingList() {
 		return waitingList.removeFirst();
+	}
+	
+	public Passenger removeSpecificPassenger(int index) {
+		Passenger removedPassenger = waitingList.remove(index);
+		
+		return removedPassenger;
+	}
+	
+	public int searchWaitingPassenger(Passenger waitingPassenger) {
+		int location = -1;
+		
+		for(int i = 0; i < waitingList.size(); i++) {
+			if((waitingList.get(i).getPassengerFirstName().equals(waitingPassenger.getPassengerFirstName())
+					&& (waitingList.get(i).getPassengerLastName().equals(waitingPassenger.getPassengerLastName())))) {
+				location = i;
+			}
+		}
+		
+		return location;
 	}
 	
 	public void displayWaitingList() {

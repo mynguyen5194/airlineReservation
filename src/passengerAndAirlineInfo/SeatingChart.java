@@ -36,7 +36,7 @@ public class SeatingChart {
 		this.seatingChart = SeatingChart;
 	}
 	
-	public boolean checkEmptySeat(int rowNum, int columnNum) {
+	public boolean isEmptySeat(int rowNum, int columnNum) {
 		boolean isEmpty = true;
 		
 		if(seatingChart[rowNum][columnNum] != null) {	// If the seat is occupied
@@ -68,7 +68,7 @@ public class SeatingChart {
 		for(int r = 0; r < rowNumber; r++) {
 			System.out.printf( r + " ");
 			for(int c = 0; c < columnNumber; c++) {
-				if(this.checkEmptySeat(r, c) == false) {	// not empty
+				if(this.isEmptySeat(r, c) == false) {	// not empty
 					System.out.printf(" X ");
 				}
 				else {
@@ -79,15 +79,15 @@ public class SeatingChart {
 		}
 	}
 	
-	public int [] searchPassenger(String firstName, String lastName) {
+	public int [] searchPassenger(Passenger passenger) {
 		boolean found = false;
 		int [] coordinate = new int [2];
 		
 		for(int r = 0; r < rowNumber; r++) {
 			for(int c = 0; c < columnNumber; c++) {
 				if(seatingChart[r][c] != null
-						&& seatingChart[r][c].getPassengerFirstName().equals(firstName)
-						&& seatingChart[r][c].getPassengerLastName().equals(lastName)) {
+						&& seatingChart[r][c].getPassengerFirstName().equals(passenger.getPassengerFirstName())
+						&& seatingChart[r][c].getPassengerLastName().equals(passenger.getPassengerLastName())) {
 					coordinate[0] = r;
 					coordinate[1] = c;
 					found = true;
@@ -102,20 +102,51 @@ public class SeatingChart {
 	}
 	
 	// Remove passenger from the seating chart
-	public void cancleFlight(int row, int column) {
-		seatingChart[row][column] = null;
-			
-	}
-	
-	public void setPassengerInfo(int row, int column, String firstName, String lastName) {
-		Passenger newPassenger = new Passenger(firstName, lastName);
+	public boolean removePassenger(Passenger passenger, WaitingList waitingList) {
+		int [] location = new int [2];
+		Passenger removedPassenger = new Passenger();
+		boolean removed = false;
 		
-		if(this.checkEmptySeat(row, column) != false) {		// empty
-			seatingChart[row][column] = newPassenger;
+		location = this.searchPassenger(passenger);
+		
+		if(location[0] != -1 && location [1] != -1) {
+			removedPassenger = this.getPassengerInformation(location[0], location[1]);
+			seatingChart[location[0]] [location[1]] = null;
+			System.out.printf("Passenger " + removedPassenger.getPassengerFirstName() + " "
+					+ removedPassenger.getPassengerLastName() + " was removed from the seating chart.\n");
+			removed = true;
 		}
+		else {
+			int index = waitingList.searchWaitingPassenger(passenger);
+			
+			if(index != -1) {
+				removedPassenger = waitingList.removeSpecificPassenger(index);
+				System.out.printf("Passenger " + removedPassenger.getPassengerFirstName() + " "
+						+ removedPassenger.getPassengerLastName() + " was removed from the waiting list.\n");
+				removed = true;
+			}
+			else {
+				System.out.printf("Passenger " + removedPassenger.getPassengerFirstName() + " "
+						+ removedPassenger.getPassengerLastName() + " cannot be found.\n");
+				removed = false;
+			}
+		}	
+		
+		return removed;
 	}
 	
-	public Passenger getPassengerInfo(int row, int column) {
+	public boolean setPassengerInfo(Passenger newPassenger, int [] location) {
+		boolean successful = false;
+		
+		if(this.isEmptySeat(location[0], location[1]) == true) {		// if empty
+			seatingChart[location[0]][location[1]] = newPassenger;
+			successful = true;
+		}
+		
+		return successful;
+	}
+	
+	public Passenger getPassengerInformation(int row, int column) {
 		Passenger newPassenger = new Passenger();
 		
 		newPassenger.setPassengerFirstName(seatingChart[row][column].getPassengerFirstName());
@@ -124,15 +155,26 @@ public class SeatingChart {
 		return newPassenger;
 	}
 	
-	public void updateAvailableSeat(Passenger newPassenger, int [] seatLocation) {
-		WaitingList waitingList = new WaitingList();
+	public boolean replacePassenger(Passenger oldPassenger, Passenger newPassenger) {
+		boolean replaced = false;
+		int [] location = new int [2];
 		
-		if(waitingList.isEmptyWaitingList() == false) {
-			newPassenger = waitingList.removePassengerFromWaitingList();	// remove the first passenger in the waiting list
-			
-			// NEED TO GET EMPTY Row and Column
+		location = this.searchPassenger(oldPassenger);
+		
+		if(location[0] != -1 && location[1] != -1) {
+			replaced = this.setPassengerInfo(newPassenger, location);
 		}
+		
+		return replaced;
 	}
 	
-
+	public boolean updatePassenger(Passenger passenger, int [] newLocation) {
+		boolean updated = false;
+		
+		if(this.isEmptySeat(newLocation[0], newLocation[1]) == true) {
+			updated = this.setPassengerInfo(passenger, newLocation);
+		}
+		
+		return updated;
+	}
 }
