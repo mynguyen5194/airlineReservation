@@ -111,7 +111,7 @@ public abstract class Reservation implements Flight {
 	}
 	
 	// This function also move the first passenger in the waiting list to the just-removed passenger seat
-	public void removePassenger(Scanner scanner) {
+	public void updateSeatingChart(Scanner scanner) {
 		Passenger removedPassenger = new Passenger();
 		int [] seatLocation = new int [2];
 		
@@ -154,13 +154,15 @@ public abstract class Reservation implements Flight {
 		Passenger newPassenger = this.getPassengerInfo(scanner);
 		
 		if(seatingChart.replacePassenger(oldPassenger, newPassenger) == true) {
+			seatingChart.replacePassenger(oldPassenger, newPassenger);
 			oldPassenger.displayName();
-			System.out.printf("'s seat has been replaced by passenger \n");
+			System.out.printf("'s seat has been replaced by passenger ");
 			newPassenger.displayName();
+			System.out.printf("\n");
 		}
 	}
 	
-	public void updatePassenger(Scanner scanner) {
+	public void changeSeat(Scanner scanner) {
 		boolean isEmpty = false;
 		
 		System.out.printf("Change passenger to a new seat\n");
@@ -189,7 +191,9 @@ public abstract class Reservation implements Flight {
 		System.out.printf("\t Menu\n"
 				+ "A: Add new passengers\n"
 				+ "S: Search passengers\n"
-				+ "R: Remove passengers\n"
+				+ "R: Replace passengers\n"
+				+ "U: Update the seating chart\n"
+				+ "C: Change seat\n"
 				+ "D: Display seating chart\n"
 				+ "M: Display menu\n"
 				+ "Q: Quit\n");
@@ -227,7 +231,15 @@ public abstract class Reservation implements Flight {
 				break;
 				
 			case "R":
-				this.removePassenger(scanner);
+				this.replacePassenger(scanner);
+				break;
+				
+			case "U":
+				this.updateSeatingChart(scanner);
+				break;
+				
+			case "C":
+				this.changeSeat(scanner);
 				break;
 				
 			case "D":
@@ -237,6 +249,7 @@ public abstract class Reservation implements Flight {
 			case "M":
 				this.displayMenu();
 				break;
+				
 			default:
 				break;
 			}	

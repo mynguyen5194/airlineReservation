@@ -1,7 +1,5 @@
 package passengerAndAirlineInfo;
 
-//import java.io.Serializable;
-
 public class SeatingChart {
 	private int rowNumber;
 	private int columnNumber;
@@ -160,7 +158,8 @@ public class SeatingChart {
 		location = this.searchPassenger(oldPassenger);
 		
 		if(location[0] != -1 && location[1] != -1) {
-			replaced = this.setPassengerInfo(newPassenger, location);
+			seatingChart[location[0]][location[1]] = newPassenger;
+			replaced = true;
 		}
 		
 		return replaced;

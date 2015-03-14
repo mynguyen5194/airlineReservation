@@ -8,8 +8,6 @@ public class Lab5Driver extends Reservation implements Flight{
 		
 		Scanner scanner = new Scanner(System.in);
 
-//		driver.addPassenger(scanner);
-//		driver.displaySeatingChart();
 		driver.drivenMenu(scanner);
 		
 		scanner.close();
