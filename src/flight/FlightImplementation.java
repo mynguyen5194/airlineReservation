@@ -7,6 +7,12 @@ public abstract class FlightImplementation implements Flight {
 	WaitingList waitingList = new WaitingList();
 	SeatingChart seatingChart = new SeatingChart(1, 1);
 	
+	public String getUserInput(Scanner scanner) {
+		String input = scanner.next();
+
+		return input;
+	}
+	
 	public Passenger getPassengerInfo(Scanner scanner) {
 		
 		Passenger newPassenger = new Passenger();
@@ -52,7 +58,7 @@ public abstract class FlightImplementation implements Flight {
 					newPassenger.getPassengerFirstName(), newPassenger.getPassengerLastName());
 			System.out.printf("Success\n");
 		}
-		else if (isEmpty == false) {
+		else if (isEmpty == false && seatingChart.isEmptySeatingChart() == true) {
 			System.out.printf("This seat has been reserved\n");
 		}
 		// Once the seatingChart is full, place newPassenger in the waiting list
