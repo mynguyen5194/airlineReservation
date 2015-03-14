@@ -1,5 +1,7 @@
 package passengerAndAirlineInfo;
 
+import java.io.Serializable;
+
 public class SeatingChart {
 	private int rowNumber;
 	private int columnNumber;

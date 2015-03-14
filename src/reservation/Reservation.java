@@ -21,13 +21,11 @@ public class Reservation extends FlightImplementation implements Flight {
 		int [] seatLocation = new int [2];
 		
 		System.out.printf("Enter the information of the passenger \n");
-		do {
-			newPassenger = reservation.getPassengerInfo(scanner);
-			seatLocation = reservation.getSeatLocation(scanner);
+		
+		newPassenger = reservation.getPassengerInfo(scanner);
+		seatLocation = reservation.getSeatLocation(scanner);
 			
-			super.addPassenger(newPassenger, seatLocation);
-			System.out.printf("Type in any character to keep adding new passenger or enter 'Exit/exit' to quit adding new passengers\n");
-		} while (!super.getUserInput(scanner).equalsIgnoreCase("exit"));
+		super.addPassenger(newPassenger, seatLocation);
 	}
 	
 	public void removePassenger(Reservation reservation, Scanner scanner) {
@@ -35,10 +33,11 @@ public class Reservation extends FlightImplementation implements Flight {
 	}
 	
 	public void drivenMenu(Reservation reservation, Scanner scanner) {
+		String option;
 		this.displayMenu();
 		do {
 			System.out.printf("Please enter your option: ");
-			String option = super.getUserInput(scanner).toUpperCase();
+			option = super.getUserInput(scanner).toUpperCase();
 			
 			switch(option) {
 			case "A":
@@ -69,10 +68,10 @@ public class Reservation extends FlightImplementation implements Flight {
 			case "M":
 				reservation.displayMenu();
 				break;
+			default:
+				break;
 			}	
-			
-		} while ((!super.getUserInput(scanner).equalsIgnoreCase("quit")) ||
-				(!super.getUserInput(scanner).equalsIgnoreCase("q")));
+		} while (!(option.equalsIgnoreCase("QUIT")) || !(option.equalsIgnoreCase("Q")));
 	}
 	
 	public static void main (String [] args) {
