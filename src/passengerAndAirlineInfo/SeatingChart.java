@@ -1,7 +1,5 @@
 package passengerAndAirlineInfo;
 
-import java.util.*;
-
 public class SeatingChart {
 	private int rowNumber;
 	private int columnNumber;

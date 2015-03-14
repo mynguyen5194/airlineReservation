@@ -1,42 +1,40 @@
 package flight;
 
-import java.util.*;
-
+import java.util.Scanner;
 import passengerAndAirlineInfo.*;
 
 public abstract class FlightImplementation implements Flight {
 	WaitingList waitingList = new WaitingList();
 	SeatingChart seatingChart = new SeatingChart();
 	
-	public Passenger getPassengerInfo() {
-		Passenger newPassenger = new Passenger();
+	public Passenger getPassengerInfo(Scanner scanner) {
 		
-		Scanner nameScanner = new Scanner(System.in);
+		Passenger newPassenger = new Passenger();
+		String firstName, lastName;
 		
 		System.out.printf("Passenger first name: ");
-		String firstName = nameScanner.nextLine();
+		firstName = scanner.next();
+			
 		System.out.printf("\nPassenger last name: ");
-		String lastName = nameScanner.nextLine();
-		
+		lastName = scanner.next();
+				
 		newPassenger.setPassengerFirstName(firstName);
 		newPassenger.setPassengerLastName(lastName);
-		
-		nameScanner.close();
 		
 		return newPassenger;
 	}
 	
-	public int [] getSeatLocation() {
+	public int [] getSeatLocation(Scanner scanner) {
+		System.out.printf("These seats (_) are still available.\n"
+				+ "Enter your seat location\n");
+		seatingChart.displaySeatingChart();
+		
 		int [] coordinate = new int [2];
 		
-		Scanner coordinateScanner = new Scanner(System.in);
-		
 		System.out.printf("\nRow number: ");
-		int row = coordinateScanner.nextInt();
+		int row = scanner.nextInt();
 		System.out.printf("\nColumn number: ");
-		int column = coordinateScanner.nextInt();
-		
-		coordinateScanner.close();
+		int column = scanner.nextInt();
 		
 		coordinate[0] = row;
 		coordinate[1] = column;
@@ -44,62 +42,31 @@ public abstract class FlightImplementation implements Flight {
 		return coordinate;
 	}
 	
-	
-	
-	public boolean addPassenger() {
-		boolean success = false;
+	public boolean addPassenger(Passenger newPassenger, int [] seatLocation) {
+		boolean isEmpty = false;
 		
-		Passenger newPassenger = this.getPassengerInfo();
-		int [] seatLocation = this.getSeatLocation();
+		isEmpty = seatingChart.checkEmptySeat(seatLocation[0], seatLocation[1]);
 		
-		// Now have to check if the seatingChart is full
+		if(isEmpty == true) {
+			seatingChart.setPassengerInfo(seatLocation[0], seatLocation[1],
+					newPassenger.getPassengerFirstName(), newPassenger.getPassengerLastName());
+			System.out.printf("Success\n");
+		}
+		else if (isEmpty == false) {
+			System.out.printf("This seat has been reserved\n");
+		}
+		// Once the seatingChart is full, place newPassenger in the waiting list
+		else if(seatingChart.isEmptySeatingChart() == false){
+			System.out.printf("\nWe appologize! All seats have been reserved\n"
+					+ "You are now on the waiting list\n");
+			waitingList.addPassengerToWL(newPassenger.getPassengerFirstName(), newPassenger.getPassengerLastName());
+		}
 		
 		
-		
-		
-		
-		return success;
+		return isEmpty;
 	}
 	
-	
-	public void getSeatChoiceFromUser() { 
-		int row, column;
-		Scanner intScanner = new Scanner(System.in);
-		
-		System.out.printf("Please enter the row following by the column of the seat you want: ");
-		row = intScanner.nextInt();
-		column = intScanner.nextInt();
-		
-		if(row < 10 || column < 4) {
-			if(seatingChart.checkEmptySeat(row, column) != true) {
-				System.out.printf("This seat has been reserved\n");
-			}
-			else {
-				Scanner stringScanner = new Scanner(System.in);
-				System.out.printf("This seat is currently empty.\n"
-						+ "Do you want to check in this seat? ");
-				String answer = stringScanner.nextLine();
-				
-				if(answer.equalsIgnoreCase("Yes") || answer.equalsIgnoreCase("Y")) {
-					System.out.printf("Please enter your first name: ");
-					String firstName = stringScanner.nextLine();
-					
-					System.out.printf("Please enter your last name: ");
-					String lastName = stringScanner.nextLine();
-					
-					seatingChart.setPassengerInfo(row, column, firstName, lastName);
-					
-					System.out.printf("Success\n");
-				}
-				else {
-					System.out.printf("Thank you!\n");
-				}
-				stringScanner.close();
-			}
-		}
-		else {
-			System.out.printf("Error!\n");
-		}
-		intScanner.close();
+	public void displaySeatingChart() {
+		seatingChart.displaySeatingChart();
 	}
 }
