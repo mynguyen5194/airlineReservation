@@ -11,6 +11,7 @@ package flightConfirmation;
 import java.io.*;
 import java.util.*;
 
+import exceptionHandler.*;
 import passengerAndAirlineInfo.*;
 
 public abstract class Reservation implements Flight {
@@ -59,20 +60,36 @@ public abstract class Reservation implements Flight {
 		return newPassenger;
 	}
 	
-	public int [] getSeatLocation(Scanner scanner) {
-		System.out.printf("These seats (_) are still available.\n"
-				+ "Enter your seat location\n");
-		seatingChart.displaySeatingChart();
-		
+	public int [] getSeatLocation(Scanner scanner)  {
 		int [] coordinate = new int [2];
+		boolean problemFixed = false;
+		ProblemGenerator problem = new ProblemGenerator(
+				seatingChart.getRowNumber(), seatingChart.getColumnNumber());
 		
-		System.out.printf("Row number: ");
-		int row = scanner.nextInt();
-		System.out.printf("Column number: ");
-		int column = scanner.nextInt();
-		
-		coordinate[0] = row;
-		coordinate[1] = column;
+		do {
+			try {
+				System.out.printf("These seats (_) are still available.\n"
+						+ "Enter your seat location\n");
+				seatingChart.displaySeatingChart();
+				
+				System.out.printf("Row number: ");
+				int row = scanner.nextInt();
+				System.out.printf("Column number: ");
+				int column = scanner.nextInt();
+				
+				coordinate[0] = row;
+				coordinate[1] = column;
+				
+				problemFixed = problem.isOutOfBounds(row, column);
+			}
+			catch(IOException err) {
+				System.out.printf("Error -- " + err.toString());
+			}
+			catch (Repair exception) {
+				exception.fixProblemReadFromConsole();
+			}
+			
+		} while (problemFixed == true);
 		
 		return coordinate;
 	}
@@ -188,7 +205,7 @@ public abstract class Reservation implements Flight {
 				+ "A: Add new passengers\n"
 				+ "F: Find/Search passengers\n"
 				+ "R: Replace passengers\n"
-				+ "U: Update the seating chart\n"
+				+ "U: Update the seating chart (remove passenger)\n"
 				+ "C: Change seat\n"
 				+ "D: Display seating chart\n"
 				+ "M: Display menu\n"
@@ -203,7 +220,7 @@ public abstract class Reservation implements Flight {
 			out.writeObject(seatingChart);
 			
 			out.close();
-			System.out.printf("The seating chart is saved in SeatingChart.dat");	
+			System.out.printf("The seating chart is saved in SeatingChart.dat\n");	
 		}
 		catch(Exception i) {
 			i.printStackTrace();

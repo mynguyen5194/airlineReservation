@@ -1,5 +1,7 @@
 package exceptionHandler;
 
+import java.util.Scanner;
+
 public class OutOfBoundsException extends Exception {
 	private int errorno;
 	private String errormsg;
@@ -48,9 +50,8 @@ public class OutOfBoundsException extends Exception {
 		System.out.println("OutOfBoundsException [errorno=" + errorno + ", errormsg=" + errormsg + "]"); 
 	}
 	
-	public void fixProblemReadFromConsole()
-	{
-		System.out.println("Problem Resolved: Please Re enter data\n");
+	public void fixProblemReadFromConsole() {
 		
+		System.out.printf("Problem Resolved: Please re-enter the data\n");
 	}
 }
