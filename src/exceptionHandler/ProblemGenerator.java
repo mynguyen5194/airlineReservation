@@ -1,7 +1,6 @@
 package exceptionHandler;
 
 import java.io.*;
-import java.util.Scanner;
 
 public class ProblemGenerator {
 	private int rowNumber;

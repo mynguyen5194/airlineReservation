@@ -1,7 +1,5 @@
 package exceptionHandler;
 
-import java.util.Scanner;
-
 public class OutOfBoundsException extends Exception {
 	private int errorno;
 	private String errormsg;

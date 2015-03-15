@@ -5,7 +5,9 @@
 
 package passengerAndAirlineInfo;
 
-public class SeatingChart {
+import java.io.Serializable;
+
+public class SeatingChart implements Serializable{
 	private int rowNumber;
 	private int columnNumber;
 	Passenger [][] seatingChart;

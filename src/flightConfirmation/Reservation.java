@@ -16,7 +16,7 @@ import passengerAndAirlineInfo.*;
 
 public abstract class Reservation implements Flight {
 	WaitingList waitingList = new WaitingList();
-	SeatingChart seatingChart = new SeatingChart(2, 2);
+	SeatingChart seatingChart = new SeatingChart(10, 4);	// 10 rows, 4 columns
 	
 	public Reservation() {}
 	public Reservation(WaitingList wl, SeatingChart sc) {
@@ -43,8 +43,7 @@ public abstract class Reservation implements Flight {
 		return input;
 	}
 	
-	public Passenger getPassengerInfo(Scanner scanner) {
-		
+	public Passenger getPassengerInfo(Scanner scanner) {		
 		Passenger newPassenger = new Passenger();
 		String firstName, lastName;
 		
@@ -97,7 +96,7 @@ public abstract class Reservation implements Flight {
 	public void addPassenger(Scanner scanner) {
 		boolean isEmpty = false;
 			
-		System.out.printf("Enter the information of the passenger \n");
+		System.out.printf("\t***Add New Passenger***\n");
 		Passenger newPassenger = this.getPassengerInfo(scanner);
 		int [] seatLocation = this.getSeatLocation(scanner);
 			
@@ -125,6 +124,8 @@ public abstract class Reservation implements Flight {
 	
 	// This function also move the first passenger in the waiting list to the just-removed passenger seat
 	public void updateSeatingChart(Scanner scanner) {
+		System.out.printf("\t***Remove Passenger***\n");
+		
 		Passenger removedPassenger = new Passenger();
 		int [] seatLocation = new int [2];
 		
@@ -141,6 +142,8 @@ public abstract class Reservation implements Flight {
 	}
 	
 	public int [] searchPassenger(Scanner scanner) {
+		System.out.printf("\t***Search Passenger***\n");
+		
 		int [] location = new int [2];
 		Passenger passenger = this.getPassengerInfo(scanner);
 		
@@ -160,6 +163,8 @@ public abstract class Reservation implements Flight {
 	}
 	
 	public void replacePassenger(Scanner scanner) {
+		System.out.printf("\t***Replace Passenger***\n");
+		
 		System.out.printf("Old passenger info\n");
 		Passenger oldPassenger = this.getPassengerInfo(scanner);
 		
@@ -176,6 +181,8 @@ public abstract class Reservation implements Flight {
 	}
 	
 	public void changeSeat(Scanner scanner) {
+		System.out.printf("\t***Change Passenger's Seat***\n");
+		
 		boolean isEmpty = false;
 		
 		System.out.printf("Change passenger to a new seat\n");
@@ -197,11 +204,12 @@ public abstract class Reservation implements Flight {
 	}
 	
 	public void displaySeatingChart() {
+		System.out.printf("\t***Seating Chart***\n");
 		seatingChart.displaySeatingChart();
 	}
 	
 	public void displayMenu() {
-		System.out.printf("\t Menu\n"
+		System.out.printf("\t***Menu***\n"
 				+ "A: Add new passengers\n"
 				+ "F: Find/Search passengers\n"
 				+ "R: Replace passengers\n"
@@ -214,6 +222,8 @@ public abstract class Reservation implements Flight {
 	}
 	
 	public void serializeSeatingChart() {
+		System.out.printf("\t***Serialize Seating Chart***\n");
+		
 		try{
 			FileOutputStream fileOut = new FileOutputStream("SeatingChart.dat");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -227,20 +237,6 @@ public abstract class Reservation implements Flight {
 		}
 	}
 	
-	public void deserializeSeatingChart() {
-		try {
-			FileInputStream fileIn = new FileInputStream("SeatingChart.dat");
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			
-			seatingChart =  (SeatingChart) in.readObject();
-			
-			in.close();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public void drivenMenu(Scanner scanner) {
 		String option;
 		this.displayMenu();
@@ -249,10 +245,6 @@ public abstract class Reservation implements Flight {
 			option = this.getUserInput(scanner).toUpperCase();
 			
 			switch(option) {
-			case "O":
-				this.deserializeSeatingChart();
-				break;
-				
 			case "A":
 				this.addPassenger(scanner);
 				break;
