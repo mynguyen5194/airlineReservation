@@ -25,9 +25,10 @@
  */
 
 
-package flightConfirmation;
+package flightConfirmationDriver;
 import java.util.*;
-import flight.*;
+
+import flightConfirmation.*;
 
 public class Lab5Driver extends Reservation implements Flight{
 	public static void main (String [] args) {

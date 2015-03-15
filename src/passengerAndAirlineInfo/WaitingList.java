@@ -1,3 +1,8 @@
+/*
+ * WaitingList class is responsible for recording information about
+ * passengers who are in the waiting list
+ */
+
 package passengerAndAirlineInfo;
 
 import java.util.*;

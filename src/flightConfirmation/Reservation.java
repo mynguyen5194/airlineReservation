@@ -6,10 +6,11 @@
  * display seating chart, and show the menu options
  */
 
-package flight;
+package flightConfirmation;
 
 import java.io.*;
 import java.util.*;
+
 import passengerAndAirlineInfo.*;
 
 public abstract class Reservation implements Flight {
@@ -77,53 +78,32 @@ public abstract class Reservation implements Flight {
 	}
 	
 	public void addPassenger(Scanner scanner) {
-		try {
-			boolean isEmpty = false;
+		boolean isEmpty = false;
 			
-			System.out.printf("Enter the information of the passenger \n");
-			Passenger newPassenger = this.getPassengerInfo(scanner);
-			int [] seatLocation = this.getSeatLocation(scanner);
+		System.out.printf("Enter the information of the passenger \n");
+		Passenger newPassenger = this.getPassengerInfo(scanner);
+		int [] seatLocation = this.getSeatLocation(scanner);
 			
-			isEmpty = seatingChart.isEmptySeat(seatLocation[0], seatLocation[1]);
+		isEmpty = seatingChart.isEmptySeat(seatLocation[0], seatLocation[1]);
 				
-			// If the wanted seat is empty, then set the passenger to the location
-			if(isEmpty == true) {
-				seatingChart.setPassengerInfo(newPassenger, seatLocation);
-				System.out.printf("Passenger ");
-				newPassenger.displayName();
-				System.out.printf(" has been added to the seating chart\n");
-			}
+		// If the wanted seat is empty, then set the passenger to the location
+		if(isEmpty == true) {
+			seatingChart.setPassengerInfo(newPassenger, seatLocation);
+			System.out.printf("Passenger ");
+			newPassenger.displayName();
+			System.out.printf(" has been added to the seating chart\n");
+		}
 				
-			// If the wanted seat is not empty and the seatingChart is not full
-			else if (isEmpty == false && seatingChart.isEmptySeatingChart() == true) {
-				System.out.printf("This seat has been reserved\n");
-			}
-			// In case the seatingChart is full, place newPassenger in the waiting list
-			else if(seatingChart.isEmptySeatingChart() == false){
-				waitingList.addPassengerToWaitingList(newPassenger);
-				System.out.printf("\nWe appologize! All seats have been reserved\n"
-						+ "You are now on the waiting list\n");		// SHOULD RETURN THE INDEX IN THE WAITING LIST				
-			}
-			
-			
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("seatingChart.txt"));
-			out.writeObject(newPassenger);
-			out.writeObject("You are not alone\n");
-        	out.close();
-//        	
-//            ObjectInputStream in =  new ObjectInputStream(new FileInputStream("seatingChart.txt"));
-//            Passenger [] list = (Passenger[]) in.readObject();
-//            
-//            for(int i = 0; i < list.length; i++) {
-//            	list[i].displayName();
-//            	System.out.printf("hello\n");
-//            }
+		// If the wanted seat is not empty and the seatingChart is not full
+		else if (isEmpty == false && seatingChart.isEmptySeatingChart() == true) {
+			System.out.printf("This seat has been reserved\n");
 		}
-		catch(Exception e) {
-	          System.out.print("Error: " + e);
-	          System.exit(1);
+		// In case the seatingChart is full, place newPassenger in the waiting list
+		else if(seatingChart.isEmptySeatingChart() == false){
+			waitingList.addPassengerToWaitingList(newPassenger);
+			System.out.printf("\nWe appologize! All seats have been reserved\n"
+				+ "You are now on the waiting list\n");		// SHOULD RETURN THE INDEX IN THE WAITING LIST				
 		}
-
 	}
 	
 	// This function also move the first passenger in the waiting list to the just-removed passenger seat
@@ -206,13 +186,42 @@ public abstract class Reservation implements Flight {
 	public void displayMenu() {
 		System.out.printf("\t Menu\n"
 				+ "A: Add new passengers\n"
-				+ "S: Search passengers\n"
+				+ "F: Find/Search passengers\n"
 				+ "R: Replace passengers\n"
 				+ "U: Update the seating chart\n"
 				+ "C: Change seat\n"
 				+ "D: Display seating chart\n"
 				+ "M: Display menu\n"
+				+ "S: Serialize the seating chart\n"
 				+ "Q: Quit\n");
+	}
+	
+	public void serializeSeatingChart() {
+		try{
+			FileOutputStream fileOut = new FileOutputStream("SeatingChart.dat");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(seatingChart);
+			
+			out.close();
+			System.out.printf("The seating chart is saved in SeatingChart.dat");	
+		}
+		catch(Exception i) {
+			i.printStackTrace();
+		}
+	}
+	
+	public void deserializeSeatingChart() {
+		try {
+			FileInputStream fileIn = new FileInputStream("SeatingChart.dat");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			
+			seatingChart =  (SeatingChart) in.readObject();
+			
+			in.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void drivenMenu(Scanner scanner) {
@@ -223,11 +232,15 @@ public abstract class Reservation implements Flight {
 			option = this.getUserInput(scanner).toUpperCase();
 			
 			switch(option) {
+			case "O":
+				this.deserializeSeatingChart();
+				break;
+				
 			case "A":
 				this.addPassenger(scanner);
 				break;
 				
-			case "S":
+			case "F":
 				int [] location = new int[2];
 				location = this.searchPassenger(scanner);
 				
@@ -264,6 +277,10 @@ public abstract class Reservation implements Flight {
 			
 			case "M":
 				this.displayMenu();
+				break;
+				
+			case "S":
+				this.serializeSeatingChart();
 				break;
 				
 			default:

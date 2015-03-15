@@ -1,4 +1,4 @@
-package flight;
+package flightConfirmation;
 import java.util.*;
 
 import passengerAndAirlineInfo.*;

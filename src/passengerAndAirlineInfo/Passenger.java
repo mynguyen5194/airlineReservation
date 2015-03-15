@@ -5,9 +5,7 @@
 
 package passengerAndAirlineInfo;
 
-import java.io.Serializable;
-
-public class Passenger implements Serializable {
+public class Passenger {
 	private String passengerFirstName;
 	private String passengerLastName;
 	
