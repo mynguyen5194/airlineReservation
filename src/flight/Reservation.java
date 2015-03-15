@@ -1,13 +1,20 @@
+/*
+ * Reservation abstract class is responsible for allowing users to 
+ * enter their information, get the seat location, add new passenger
+ * to either seating chart or waiting list appropriately, update
+ * seating chart, search passenger, replace passenger, change seat,
+ * display seating chart, and show the menu options
+ */
+
 package flight;
 
 import java.io.*;
 import java.util.*;
-
 import passengerAndAirlineInfo.*;
 
 public abstract class Reservation implements Flight {
 	WaitingList waitingList = new WaitingList();
-	SeatingChart seatingChart = new SeatingChart(1, 2);
+	SeatingChart seatingChart = new SeatingChart(2, 2);
 	
 	public Reservation() {}
 	public Reservation(WaitingList wl, SeatingChart sc) {
@@ -100,8 +107,17 @@ public abstract class Reservation implements Flight {
 			
 			
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("seatingChart.txt"));
-        	out.writeUTF(newPassenger.getPassengerFirstName());
+			out.writeObject(newPassenger);
+			out.writeObject("You are not alone\n");
         	out.close();
+//        	
+//            ObjectInputStream in =  new ObjectInputStream(new FileInputStream("seatingChart.txt"));
+//            Passenger [] list = (Passenger[]) in.readObject();
+//            
+//            for(int i = 0; i < list.length; i++) {
+//            	list[i].displayName();
+//            	System.out.printf("hello\n");
+//            }
 		}
 		catch(Exception e) {
 	          System.out.print("Error: " + e);
@@ -253,6 +269,6 @@ public abstract class Reservation implements Flight {
 			default:
 				break;
 			}	
-		} while (!(option.equalsIgnoreCase("QUIT")) || !(option.equalsIgnoreCase("Q")));
+		} while (!(option.equalsIgnoreCase("Q")));
 	}
 }

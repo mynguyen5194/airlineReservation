@@ -1,3 +1,8 @@
+/*
+ * SeatingChart class keeps track of the reserved seats on the airplane
+ * It also allows users to enter add, remove, or display the booked seats
+ */
+
 package passengerAndAirlineInfo;
 
 public class SeatingChart {

@@ -1,3 +1,8 @@
+ /*
+  * Passenger class includes passengerFirstName and passengerLastName
+  * and the getName and displayName methods
+  */
+
 package passengerAndAirlineInfo;
 
 import java.io.Serializable;
