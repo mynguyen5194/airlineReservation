@@ -7,10 +7,11 @@ public class ProblemGenerator {
 	private int columnNumber;
 	
 	public ProblemGenerator() {}
-	public ProblemGenerator(int rowNum, int columnNum) {
-		rowNumber = rowNum;
-		columnNumber = columnNum;
+	public ProblemGenerator(int RowNumber, int ColumnNumber) {
+		rowNumber = RowNumber;
+		columnNumber = ColumnNumber;
 	}
+	
 	public int getRowNumber() {
 		return rowNumber;
 	}
@@ -23,7 +24,6 @@ public class ProblemGenerator {
 	public void setColumnNumber(int columnNumber) {
 		this.columnNumber = columnNumber;
 	}
-	
 	public boolean isOutOfBounds(int rowNum, int columnNum) throws Repair, IOException {
 		boolean isOutOfBounds = false;
 		
